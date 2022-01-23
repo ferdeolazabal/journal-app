@@ -1,5 +1,5 @@
 import React from 'react'
-import { NoteScreen } from '../../notes/NoteScreen'
+import { NoteScreen } from '../notes/NoteScreen'
 // import { NothngSelected } from './NothngSelected'
 import { Sidebar } from './Sidebar'
 
