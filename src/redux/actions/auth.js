@@ -3,14 +3,6 @@ import { types } from "../types/types"
 import { setError, startLoading, finishLoading } from './ui';
 
 
-export const login = (uid, displayName) => ({
-    type: types.login,
-    payload: {
-        uid,
-        displayName
-    }
-})
-
 export const startLoginEmailPassword = (email, password) => {
 
     return async (dispatch) => {
@@ -72,3 +64,27 @@ export const startRegisterWithEmailPasswordName = (name, email, password) => {
         };
     };
 };
+
+export const login = (uid, displayName) => ({
+    type: types.login,
+    payload: {
+        uid,
+        displayName
+    }
+})
+
+export const startLogout = () => {
+    return async (dispatch) => {
+        try {
+            await firebase.auth().signOut();
+            dispatch( logout() );
+        } catch (error) {
+            dispatch( setError(error.message) );
+        };
+    };
+}
+
+export const logout = () => ({
+    type: types.logout
+})
+
