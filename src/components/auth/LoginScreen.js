@@ -10,7 +10,7 @@ import { removeError, setError } from '../../redux/actions/ui';
 export const LoginScreen = () => {
     
     const dispatch = useDispatch()
-    const { msgError, loading } = useSelector( state => state.ui );
+    const { loading } = useSelector( state => state.ui );
 
     const [ formValues, handleInputChange ] = useForm({
         email: 'nando@gmail.com',
@@ -53,10 +53,6 @@ export const LoginScreen = () => {
             <h3 className="auth__title">Login</h3>
 
             <form onSubmit={ handleLogin }>
-
-                {
-                    msgError && <div className="auth__alert-error">{ msgError }</div>
-                }
 
                 <input 
                     type="text" 
