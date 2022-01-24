@@ -1,12 +1,16 @@
 import React from 'react'
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom'
-import { startLoginEmailPassword, startLoginGoogle } from '../../redux/actions/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import validator from 'validator';
+
 import { useForm } from '../../hooks/useForm';
+import { startLoginEmailPassword, startLoginGoogle } from '../../redux/actions/auth';
+import { removeError, setError } from '../../redux/actions/ui';
 
 export const LoginScreen = () => {
     
     const dispatch = useDispatch()
+    const { msgError, loading } = useSelector( state => state.ui );
 
     const [ formValues, handleInputChange ] = useForm({
         email: 'nando@gmail.com',
@@ -18,12 +22,30 @@ export const LoginScreen = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        dispatch( startLoginEmailPassword( email, password ) )
+        if ( isFormValid() ){
+            dispatch( startLoginEmailPassword( email, password ) )
+        }
     }
 
     const handleGoogleLogin = () => {
         dispatch( startLoginGoogle() );
     }
+
+    const isFormValid = () => {
+        if ( !validator.isEmail( email ) ) {
+            dispatch( setError('Email is invalid') )
+            return false;
+        }
+        else if( password.length < 6 ){
+            dispatch( setError('Password should be at least 6 characters') )
+            return false;
+        }
+        else {
+            dispatch( removeError() )
+            return true;
+        }
+    }
+
 
 
     return (
@@ -31,6 +53,11 @@ export const LoginScreen = () => {
             <h3 className="auth__title">Login</h3>
 
             <form onSubmit={ handleLogin }>
+
+                {
+                    msgError && <div className="auth__alert-error">{ msgError }</div>
+                }
+
                 <input 
                     type="text" 
                     placeholder="Email" 
@@ -53,6 +80,7 @@ export const LoginScreen = () => {
                 <button 
                     type="submit"
                     className="btn btn-primary btn-block"
+                    disabled={ loading }
                 >
                     Login
                 </button>
