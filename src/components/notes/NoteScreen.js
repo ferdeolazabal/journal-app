@@ -1,7 +1,23 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useForm } from '../../hooks/useForm';
+import { startEditNote } from '../../redux/actions/notes';
 import { NotesAppBar } from './NotesAppBar';
 
 export const NoteScreen = () => {
+
+    // const dispatch = useDispatch();
+    const { id, title, body, url } = useSelector( state => state.notes.active );
+
+    const [ values, handleInputChange ] = useForm({
+        title: title || '',
+        note: body || ''
+    })
+
+    // dispatch( startEditNote(id, values) )
+
+
     return( 
         <div className="notes-main-content">
 
@@ -10,22 +26,33 @@ export const NoteScreen = () => {
             <div className="notes__content">
             
                 <input  
-                    type="text"
-                    placeholder="Escribe una nota..."
                     className="notes__title-input"
+                    placeholder="Escribe una nota..."
                     autoComplete="off"
+                    type="text"
+                    name="title"
+                    value={ values.title }
+                    onChange={ handleInputChange }
                 />
                 <textarea
                     placeholder="What is on your mind?"
                     className="notes__textarea"
+                    name="note"
+                    value={ values.note }
+                    onChange={ handleInputChange }
                 />
                 
-                <div className="notes__image">
-                    <img
-                        src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
-                        alt="imagen"
-                    />
-                </div>
+                {
+                    url && 
+                        
+                        <div className="notes__image">
+                            <img
+                                src={ url }
+                                alt="imagen"
+                            />
+                        </div>
+                        
+                }
 
 
 

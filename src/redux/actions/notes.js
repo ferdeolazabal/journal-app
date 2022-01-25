@@ -11,7 +11,7 @@ export const startNewNote = () => {
         const newNote = {
                 title: '',
                 body: '',
-                date: new Date(),
+                date: new Date().getTime()
         }
         const doc = await db.collection(`${ uid }/journal/notes`).add(newNote)
 

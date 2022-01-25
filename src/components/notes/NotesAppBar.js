@@ -1,7 +1,19 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { startEditNote } from '../../redux/actions/notes';
 
 export const NotesAppBar = () => {
-  return (
+  
+    const dispatch = useDispatch();
+    const { id, title, body } = useSelector( state => state.notes.active );
+
+    const saveNotes = () => {
+        dispatch( startEditNote(id, {title, body}) )
+
+    }
+  
+  
+    return (
     <div className="notes__appbar">
         
         <span 
@@ -16,7 +28,10 @@ export const NotesAppBar = () => {
                 </i>
             </button>
 
-            <button className="btn">
+            <button 
+                className="btn"
+                onClick={ saveNotes }
+            >
                 <i className="material-icons">
                     Save
                 </i>

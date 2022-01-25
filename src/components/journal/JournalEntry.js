@@ -1,29 +1,46 @@
 import React from 'react'
+import { useDispatch } from 'react-redux';
+import moment from 'moment'
 
-export const JournalEntry = () => {
+import { activeNote } from '../../redux/actions/notes';
+
+export const JournalEntry = ({ id, title, body, date, url }) => {
+
+    const dispatch = useDispatch();
+    const noteDate = moment( date )
+
+    const handleEntryClick = () => {
+        dispatch( activeNote( id, {title, body, date, url} ) )
+    }
 
     return (
-        <div className="journal__entry pointer">
+        <div 
+            className="journal__entry pointer"
+            onClick={ handleEntryClick }
+        >
             
-            <div 
-                className="journal__entry-picture"
-                style={{
-                    BackgroundSize: 'cover',
-                    backgroundImage: `url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZaJCD8Xb1woOkBHQmFamBch0f_T8K-QmUordyleng00glKVFlbWbRcs0rfM0zH515Jyk&usqp=CAU)`,
-                }}
-            ></div>
+            {
+                url &&
+                <div 
+                    className="journal__entry-picture"
+                    style={{
+                        BackgroundSize: 'cover',
+                        backgroundImage: `url( ${ url } )`,
+                    }}
+                ></div>
+            }
 
             <div className="journal__entry-body">
-                <p className="journal__entry-title">A New Day!</p>
+                <p className="journal__entry-title"> { title } </p>
                 <p className="journal__entry-content">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    { body }
                 </p>
                 
             </div>
 
             <div className="journal__entry-date-box">
-                <span>Monday</span>
-                <h4>27</h4>
+                <span> { noteDate.format('dddd')} </span>
+                <h4> { noteDate.format('Do')} </h4>
             </div>
             
         </div>
