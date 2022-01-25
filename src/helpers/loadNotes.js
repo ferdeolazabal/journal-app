@@ -1,7 +1,6 @@
 import { db } from "../firebase/firebaseConfig"
 
 
-
 export const loadNotes = async ( uid ) => {
 
     const notesSnap = await db.collection(`${ uid }/journal/notes`).get()
@@ -10,6 +9,6 @@ export const loadNotes = async ( uid ) => {
         id: note.id,
         ...note.data()
     }));
-    console.log(notes)
+
     return notes
 }
