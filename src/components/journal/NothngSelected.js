@@ -3,7 +3,7 @@ import React from 'react';
 export const NothngSelected = () => {
     return (
         <div className="nothing__main-content">
-            <p>
+            <p className="mt-5">
                 Select a journal entry to view it here.
                 <br/>
                 Create a journal entry
