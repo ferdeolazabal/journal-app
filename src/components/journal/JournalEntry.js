@@ -9,6 +9,7 @@ export const JournalEntry = ({ id, title, body, date, url }) => {
     const dispatch = useDispatch();
     const noteDate = moment( date )
 
+    console.log( id, title, body, date, url)
     const handleEntryClick = () => {
         dispatch( activeNote( id, {title, body, date, url} ) )
     }

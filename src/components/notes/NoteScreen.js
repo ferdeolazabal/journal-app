@@ -13,8 +13,8 @@ export const NoteScreen = () => {
     const [ values, handleInputChange, reset ] = useForm( {
         title: title || '',
         body: body  || '',
-        date: date,
-        url: url || ''
+        date: date || '',
+        url: url
     } );
 
     const activeId = useRef( id );
@@ -29,6 +29,8 @@ export const NoteScreen = () => {
     useEffect( () => {
         dispatch( activeNote( id, values ) );
     }, [ values, dispatch, id ] );
+
+    console.log( values );
 
     return( 
         <div className="notes-main-content">
