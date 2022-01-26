@@ -1,22 +1,34 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { useForm } from '../../hooks/useForm';
-import { startEditNote } from '../../redux/actions/notes';
+import { activeNote } from '../../redux/actions/notes';
 import { NotesAppBar } from './NotesAppBar';
 
 export const NoteScreen = () => {
 
-    // const dispatch = useDispatch();
-    const { id, title, body, url } = useSelector( state => state.notes.active );
+    const dispatch = useDispatch();
+    const { id, title, body, url, date } = useSelector( state => state.notes.active );
 
-    const [ values, handleInputChange ] = useForm({
+    const [ values, handleInputChange, reset ] = useForm( {
         title: title || '',
-        note: body || ''
-    })
+        body: body  || '',
+        date: date,
+        url: url || ''
+    } );
 
-    // dispatch( startEditNote(id, values) )
+    const activeId = useRef( id );
+    
+    useEffect( () => {
+        if( id !== activeId.current ) {
+            reset( {  title, body, url } );
+            activeId.current = id;
+        }
+    }, [ id, title, body, url, reset ] );
 
+    useEffect( () => {
+        dispatch( activeNote( id, values ) );
+    }, [ values, dispatch, id ] );
 
     return( 
         <div className="notes-main-content">
@@ -37,17 +49,17 @@ export const NoteScreen = () => {
                 <textarea
                     placeholder="What is on your mind?"
                     className="notes__textarea"
-                    name="note"
-                    value={ values.note }
+                    name="body"
+                    value={ values.body }
                     onChange={ handleInputChange }
                 />
                 
                 {
-                    url && 
+                    values.url && 
                         
                         <div className="notes__image">
                             <img
-                                src={ url }
+                                src={ values.url }
                                 alt="imagen"
                             />
                         </div>
