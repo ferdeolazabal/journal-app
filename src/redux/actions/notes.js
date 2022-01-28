@@ -15,11 +15,13 @@ export const startNewNote = () => {
                 title: '',
                 body: '',
                 date: new Date().getTime(),
+                url: '',
         }
         
         const doc = await db.collection(`${ uid }/journal/notes`).add(newNote)
 
         dispatch( activeNote( doc.id, newNote ) );
+        dispatch( addNewNote ( doc.id, newNote ) );
     };
 };
 
@@ -29,6 +31,14 @@ export const activeNote = ( id, note ) => ({
     payload: {
         id,
         ...note
+    }
+})
+
+export const addNewNote = ( id, note ) => ({
+
+    type: types.notesAddNew,
+    payload: {
+        id, ...note
     }
 })
 
@@ -78,7 +88,7 @@ export const startUpdateNote = ( note ) => {
                 icon: 'success',
                 title: 'Your note has been saved successfully'
             })
-
+            dispatch( startLoadingNotes( uid ) );
 
         } catch( error ){
             console.log( error );
@@ -115,23 +125,44 @@ export const startUploadPicture = ( file ) => {
         activeNote.url = fileUrl;
 
         dispatch( startUpdateNote( activeNote ) );
-        console.log( fileUrl );
+        // console.log( fileUrl );
         Swal.close();
     };
 };
 
-//-------------------------------------------------------------
-
-
 export const startDeleteNote = ( id ) => {
     return async ( dispatch, getState ) => {
-        const { uid } = getState().auth
+        
+        try{
+            const { uid } = getState().auth
+        
+            await db.doc(`${ uid }/journal/notes/${ id }`).delete()
+        
+            dispatch( deleteNote( id ) );
 
-        await db.doc(`${ uid }/journal/notes/${ id }`).delete()
+            // Swal.fire({
+            //     icon: 'success',
+            //     title: 'Your note has been deleted successfully'
+            // })
+
+        } catch ( error ){
+            console.log( error );
+        }
     }
 };
 
+export const deleteNote = ( id ) => ({
+    type: types.notesDelete,
+    payload: id
+});
 
+
+export const notesLogoutCleaning = () => ({
+    type: types.notesLogoutCleaning
+});
+
+
+//-------------------------------------------------------------
 export const startSetActiveNote = ( id ) => {
     return async ( dispatch, getState ) => {
         const { uid } = getState().auth

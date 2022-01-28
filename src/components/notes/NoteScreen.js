@@ -2,8 +2,9 @@ import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { useForm } from '../../hooks/useForm';
-import { activeNote } from '../../redux/actions/notes';
+import { activeNote, startDeleteNote } from '../../redux/actions/notes';
 import { NotesAppBar } from './NotesAppBar';
+import Swal from 'sweetalert2'
 
 export const NoteScreen = () => {
 
@@ -30,7 +31,28 @@ export const NoteScreen = () => {
         dispatch( activeNote( id, values ) );
     }, [ values, dispatch, id ] );
 
-    console.log( values );
+    const handleDelete = () => {
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch( startDeleteNote( id ) );
+                Swal.fire({
+                    title: 'Deleted!',
+                    text: 'Your file has been deleted successfully.',
+                    icon: 'success',
+                    showClass: { popup: 'animate__animated animate__fadeInDown' },
+                })
+            }
+        })
+    } 
 
     return( 
         <div className="notes-main-content">
@@ -59,18 +81,22 @@ export const NoteScreen = () => {
                 {
                     values.url && 
                         
-                        <div className="notes__image">
+                        (<div className="notes__image">
                             <img
                                 src={ values.url }
                                 alt="imagen"
                             />
-                        </div>
-                        
+                        </div>)
                 }
-
-
-
+                
             </div>
+
+            <button 
+                className="btn btn-danger"
+                onClick={ handleDelete }
+            >
+                Delete
+            </button>
 
 
 

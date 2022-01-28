@@ -9,14 +9,14 @@ export const JournalEntry = ({ id, title, body, date, url }) => {
     const dispatch = useDispatch();
     const noteDate = moment( date )
 
-    console.log( id, title, body, date, url)
+    // console.log( id, title, body, date, url)
     const handleEntryClick = () => {
         dispatch( activeNote( id, {title, body, date, url} ) )
     }
 
     return (
         <div 
-            className="journal__entry pointer"
+            className="journal__entry pointer animate__animated animate__fadeIn animate__faster"
             onClick={ handleEntryClick }
         >
             
