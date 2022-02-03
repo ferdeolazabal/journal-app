@@ -6,7 +6,7 @@ La autenticacion de usuario puede hacerse mediante google, o directamente creand
 
 ## Live Test
 
-[]()
+[https://ferdeolazabal-journal-app.surge.sh/](https://ferdeolazabal-journal-app.surge.sh/)
 
 ## Available Scripts
 
