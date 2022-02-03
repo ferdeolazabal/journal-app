@@ -1,24 +1,22 @@
 import React from 'react'
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom'
-import validator from 'validator';
-import Swal from 'sweetalert2'
-
 import { useForm } from '../../hooks/useForm';
 import { startRegisterWithEmailPasswordName } from '../../redux/actions/auth';
 import { setError, removeError } from '../../redux/actions/ui';
+import validator from 'validator';
+import Swal from 'sweetalert2'
 
 
 export const RegisterScreen = () => {
     
     const dispatch = useDispatch()
-    // const { msgError } = useSelector( state => state.ui );
 
     const [ formValues, handleInputChange ] = useForm({
-        name:"fernachooo",
-        email: "fer@jeje.com",
-        password: "123456",
-        confirmPassword: "123456"
+        name:"",
+        email: "",
+        password: "",
+        confirmPassword: ""
     });
     
     const { name, email, password, confirmPassword } = formValues;
@@ -71,7 +69,7 @@ export const RegisterScreen = () => {
             return false;
         }
 
-            dispatch( removeError() )
+        dispatch( removeError() )
         
         return true;
 
@@ -127,7 +125,7 @@ export const RegisterScreen = () => {
 
                 <button 
                     type="submit"
-                    className="btn btn-primary btn-block mb-5"
+                    className="btn btn-primary btn-block mb-5 mt-5"
                 >
                     Register
                 </button>

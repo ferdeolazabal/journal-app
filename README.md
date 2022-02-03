@@ -1,6 +1,12 @@
-# Getting Started with Create React App
+# Journal-App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Aplicación web creada con react donde podemos registrar notas y agregarle fotos.
+La autenticacion de usuario puede hacerse mediante google, o directamente creando un usuario propio
+
+
+## Live Test
+
+[]()
 
 ## Available Scripts
 

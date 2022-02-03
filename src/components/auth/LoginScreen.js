@@ -13,8 +13,8 @@ export const LoginScreen = () => {
     const { loading } = useSelector( state => state.ui );
 
     const [ formValues, handleInputChange ] = useForm({
-        email: 'nando@gmail.com',
-        password: '123456'
+        email: '',
+        password: ''
 
     });
     
@@ -78,14 +78,16 @@ export const LoginScreen = () => {
 
                 <button 
                     type="submit"
-                    className="btn btn-primary btn-block"
+                    className="btn btn-primary btn-block mt-5"
                     disabled={ loading }
                 >
                     Login
                 </button>
 
                 <div className="auth__social-networks">
-                    <p>Login with social networks</p>
+                    <p
+                        className=""
+                    >Login with social networks</p>
 
                     <div 
                         className="google-btn"
